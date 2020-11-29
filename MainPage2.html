@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Main Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-storage.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+    </head>
+
+    <body class="h-100">
+        <nav class="navbar navbar-expand-lg bg-dark text-white">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a class="navbar-brand" style="color: whitesmoke; text-decoration-style:wavy;" href="#">
+                            Jasin Smart Library Administrator
+                        </a>
+                    </li>
+                   
+                    <li>
+                        <a class="nav-link" style="color: whitesmoke; text-decoration-style:wavy;" href="user_info.html">
+                            <span style="color: white;">User Information</span>
+                        </a>
+                    </li>
+                   
+                    <li>
+                        <a class="nav-link" style="color: whitesmoke; text-decoration-style:wavy;" href="#">
+                            <span style="color: white;">Level 1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" style="color: whitesmoke; text-decoration-style:wavy;" href="#">
+                            <span style="color: white;">Level 2</span>
+                        </a>
+                    </li>
+
+                </ul>
+                
+                <div class="dropdown navbar-right">
+                    
+                    <button 
+                        id="option-id"
+                        class="btn btn-light dropdown-toggle bg-dark text-white" 
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                        Options
+                    </button>
+                    
+                    <div 
+                        class="dropdown-menu" 
+                        aria-labelledby="option-id">
+                        <a 
+                            class="dropdown-item" 
+                            id="btn-logout" 
+                            href="#"
+                        >Logout
+                        </a>
+                    </div>
+                
+                </div>
+            </div>
+        </nav>
+
+        <div class="row h -100 bg-light">
+            <div class="col-lg-0 bg-secondary">
+                <ul class="nav flex-column"></ul>
+            </div>
+
+            <div class="col-lg 12">
+                <div class="container" id="container">
+                
+                <!-- Blog Post Area -->
+                <div class="jumbotron bg-dark" style="margin-top: 15px;">
+                    
+                    <script>
+                        var counter=0;
+                    </script>
+                    
+                    <div class="container text-center">
+                        <form id="main-form">
+
+                            <div class="form-group">
+                                <input type="text" rows="1" placeholder="Book Title..." class="form-control" id="main-title"></input>
+                                <div class="invalid-feedback">
+                                    Please write book title
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" rows="1" placeholder="Book Author..." class="form-control" id="main-author"></input>
+                                <div class="invalid-feedback">
+                                    Please write book author
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea type="text" rows="5" placeholder="Synopsis..." class="form-control" id="main-synopsis"></textarea>
+                                <div class="invalid-feedback">
+                                    Please write some synopsis first
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" rows="1" placeholder="Category..." class="form-control" id="main-category"></input>
+                                <div class="invalid-feedback">
+                                    Please write book category
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" rows="1" placeholder="Shelves..." class="form-control" id="main-shelves"></input>
+                                <div class="invalid-feedback">
+                                    Please write book shelves
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="file" class="form-control" id="main-image" />
+                                <div class="invalid-feedback">
+                                    Please choose a valid picture.
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <img id="selected-image" width="250" height="150" src="#"/>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="progress bg-secondary">
+                                    <div class="progress-bar bg-success" id="upload-progress" style="width:0%;">0%</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button id="save-blog" type="button" style="width:150px; height:60px;" class="btn btn-light bg-light text-dark">Post</button>
+                            </div>
+                        </form>
+
+                        <div id="result">
+
+                        </div>
+                    </div>
+                </div>
+                    <!-- Blog Post Area Ends Here -->
+
+            
+                    <!-- After Blog Post Area -->
+                    <hr>
+                    <br><br><br>
+                    <div class="text-center bg-light text-dark">
+                        <h3>All Book Information</h3>
+                    </div>
+
+                    <hr>
+                    <br>
+
+                    <div class="row container-fluid bg-3">
+                        <div class="col-sm-12" id="blogs">
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <!-- After Blog Post Area Ends Here -->
+                    
+                    
+                    <!-- Validation and Uploading of Post Blogs -->
+                    <script src="js/index.js"></script>
+                    <script>
+                        var validImagetypes=["image/gif","image/jpeg","image/png"]
+                        
+                        $("#selected-image").hide();
+
+                        function previewImage(image_blog)
+                        {
+                            if(image_blog.files && image_blog.files[0])
+                            {
+                                 var reader = new FileReader();
+
+                                reader.onload = function(e)
+                                {
+                                    $("#selected-image").attr('src', e.target.result);
+                                    $("#selected-image").fadeIn();
+                                }
+                                reader.readAsDataURL(image_blog.files[0]);
+
+                                //$("#selected-image").show();
+                            }
+                        }
+
+                        $("#main-image").change(function()
+                        {
+                            previewImage(this);
+                        });
+
+                        $("#save-blog").click(function()
+                        {
+                            $("#main-synopsis").removeClass("is-invalid");
+                            $("#main-category").removeClass("is-invalid");
+                            $("#main-shelves").removeClass("is-invalid");
+                            $("#main-author").removeClass("is-invalid");
+                            $("#main-title").removeClass("is-invalid");
+
+                            var synopsis = $("#main-synopsis").val();
+                            var title = $("#main-title").val();
+                            var shelves = $("#main-shelves").val();
+                            var author = $("#main-author").val();
+                            var category = $("#main-category").val();
+                            var picture = $("#main-image").prop("files")[0];
+
+                            if(!title)
+                            {
+                                $("#main-title").addClass("is-invalid");
+                                return;
+                            }
+
+                            if(!author)
+                            {
+                                $("#main-author").addClass("is-invalid");
+                                return;
+                            }
+
+                            if(!synopsis)
+                            {
+                                $("#main-synopsis").addClass("is-invalid");
+                                return;
+                            }
+
+                            if(!category)
+                            {
+                                $("#main-category").addClass("is-invalid");
+                                return;
+                            }
+
+                            if(!shelves)
+                            {
+                                $("#main-shelves").addClass("is-invalid");
+                                return;
+                            }
+
+                            if(picture == null)
+                            {
+                                $("#main-image").addClass("is-invalid");
+                                return;
+                            }
+
+                            if($.inArray(picture["type"], validImagetypes)<0)
+                            {
+                                $("#main-image").addClass("is-invalid");
+                                return;
+                            }
+
+                            // Upload and Save to Firebase Storage and Firebase Database
+                            //var databaseRef = firebase.database().ref().child("Books");
+                            var databaseRef = firebase.firestore().collection("beacons").doc("b9407f30-f5f8-466e-aff9-25556b57fe6a").collection("level 1");
+
+                            databaseRef.once("value").then(function(snapshot)
+                            {
+                                var name = picture["name"];
+                                var dateStr = new Date().getTime();
+                                var fileCompleteName = name + "_" + dateStr;
+
+                                var storageRef = firebase.storage().ref("Book Images");
+                                var bookStorageRef = storageRef.child(fileCompleteName);
+
+                                var uploadTask = bookStorageRef.put(picture);
+
+                                uploadTask.on("state_changed",
+
+                                    function progress(snapshot)
+                                    {
+                                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                        
+                                        $("#upload-progress").html(Math.round(percentage) + "%");
+                                        $("#upload-progress").attr("style", "width:" + percentage + "%");
+                                    },
+                                    function error(err)
+                                    {
+
+                                    },
+                                    function complete()
+                                    {
+                                        var user = firebase.auth().currentUser;
+                                        // var userName;
+                                        // firebase.database().ref('admin/' + user.uid).once('value').then(function(snapshot)
+                                        // {
+                                        //     var fName = (snapshot.val() && snapshot.val().first_name);
+                                        //     var sName = (snapshot.val() && snapshot.val().second_name);
+                                        //     userName = fName + " " + sName;
+
+                                        // });
+
+                                        uploadTask.snapshot.ref.getDownloadURL().then(function(downloadUrl)
+                                        {
+                                            var time = new Date();
+                                            
+                                            var options = 
+                                            {
+                                                weekday: "long",
+                                                month: "long",
+                                                day: "2-digit",
+                                                year: "numeric",
+                                            };
+
+                                            //BOOK DATA
+                                            var blogData = 
+                                            {
+                                                "image": downloadUrl,
+                                                "nameImage": fileCompleteName,
+                                                "synopsis": synopsis,
+                                                "title": title,
+                                                "category": category,
+                                                "shelves": shelves,
+                                                "author": author,
+                                                //"uid": user.uid,
+                                                "counter": 5000 - counter,
+                                                //"userName": userName,
+                                                "time": time.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true}),
+                                                "date": time.toLocaleDateString('en-US', options),
+                                            };
+
+                                            var newPostRef = databaseRef.push();
+
+                                            //BOOK DATA
+                                            newPostRef.set(blogData, function(err)
+                                            {
+                                                if(err)
+                                                {
+                                                    $("#result").attr("class", "alert alert-danger");
+                                                    $("#result").html(err.message);
+                                                }
+                                                else
+                                                {
+                                                    $("#result").attr("class", "alert alert-success");
+                                                    $("#result").html("book has been uploaded successfully");
+
+                                                    window.open("","_self");
+                                                }
+
+                                                resetForm();
+                                            });
+                                        });
+                                    }
+                                );
+                            });
+                            // Upload and Save to Firebase Storage and Firebase Database
+                        });
+
+                        function resetForm()
+                        {
+                            $("#main-form")[0].reset();
+                            $("#selected-image").fadeOut();
+                            $("#upload-progress").html("Completed");
+                        }
+
+                        // Retrieve and Display Data From Firebase
+
+                        //var dbBooks = firebase.database().ref().child("Books").orderByChild("counter");
+                        var dbBooks = firebase.firestore().collection("beacons").doc("b9407f30-f5f8-466e-aff9-25556b57fe6a").collection("level 1");
+
+                        dbBooks.on("value", function(books)
+                        {
+                            if(books.exists())
+                            {
+                                var booksHtml = "";
+
+                                books.forEach(function(singleBook)
+                                {
+                                    counter = counter + 1;
+
+                                    booksHtml += "<div class='jumbotron bg-light text-dark border border-dark'>";
+                                        
+                                        booksHtml += "<div> <img width='1000px' height='550px' src='";
+                                            booksHtml += singleBook.val().image;
+                                        booksHtml += "'/></div> <br>";
+                                        
+                                        booksHtml += "<div class='row'>";
+                                            booksHtml +="<div class='col-sm-5'> <p style='color:grey;'>"
+                                                        + "Title: " + singleBook.val().title
+                                                        + "</p></div>" + 
+
+                                                        "<div class='col-sm-4'> <p style='color:grey;'>"
+                                                        + "Author: " + singleBook.val().author
+                                                        + "</p></div>" +
+                                        
+                                                        "<div class='col-sm-3'> <p style='color:grey;'>"
+                                                        + "Category: " + singleBook.val().category
+                                                        + "</p></div>" +
+
+                                                        "<div class='col-sm-5'> <p style='color:grey;'>"
+                                                        + "Shelves: " + singleBook.val().shelves
+                                                        + "</p></div>" +
+
+                                                        // "<div class='col-sm-4'> <p style='color:grey;'>"
+                                                        // + "Published by: " + singleBook.val().userName
+                                                        // + "</p></div>" + 
+
+                                                        "<div class='col-sm-3'> <p style='color:grey;'>"
+                                                        + "Time: " + singleBook.val().time
+                                                        + "</p></div>" +
+
+                                                        "<div class='col-sm-5'> <p style='color:grey;''>"
+                                                        + "Date: " + singleBook.val().date
+                                                        + "</p></div>"
+                                                        ;
+                                        booksHtml += "</div> <br>";
+                                        
+                                        booksHtml += "<div style='text-align: justify; color: black;'>";
+                                            booksHtml += singleBook.val().synopsis;
+                                        booksHtml += "</div> <br>";
+
+                                    booksHtml += "</div>";
+                                });
+                                $("#blogs").html(booksHtml);
+
+                            }
+                        });
+                        // End Here --> Retrieve and Display Data From Firebase
+
+                    </script>
+                    
+                    <!-- Validation and Uploading of Post Blogs End Here-->
+                </div>
+            </div>
+        </div>
+
+           <script>
+               firebase.auth().onAuthStateChanged(function(user)
+               {
+                    if(!user)
+                    {
+                        window.location.href = "signin2.html";
+                    }
+               });
+           </script>
+
+    </body>
+</html>

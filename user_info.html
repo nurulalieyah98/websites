@@ -1,0 +1,56 @@
+<html>
+    <head>
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-firestore.js"></script>
+      
+      <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <h1>Jasin Smart Library</h1>
+        <h4>All User Information</h4>
+
+        <div class="content">
+          <br>
+          <a href="MainPage2.html">
+            <button type="button" style="color: black; background-color: blueviolet;">Home</button>
+          </a>
+        <br>
+        <br>
+        <a href="Book_Level1.html">
+          <button type="button" style="color: black; background-color: blueviolet;">Book Level 1</button>
+        </a>
+        <br>
+        <br>
+        <a href="Book_Level2.html">
+          <button type="button" style="color: black; background-color: blueviolet;">Book Level 2</button>
+        </a>
+
+            <!-- <form id="add-cafe-form"></form> -->
+
+            <ul id="user-list"></ul>
+
+        </div>
+      
+        <script>
+        
+        // Your web app's Firebase configuration
+        var firebaseConfig = 
+        {
+          apiKey: "AIzaSyAJEIDNaEXNuj17cAOg6pK78Fk_gARp5Wc",
+          authDomain: "jasin-smart.firebaseapp.com",
+          databaseURL: "https://jasin-smart.firebaseio.com",
+          projectId: "jasin-smart",
+          storageBucket: "jasin-smart.appspot.com",
+          messagingSenderId: "356895521158",
+          appId: "1:356895521158:web:23155ad05d934dcf999407"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        db.settings({timestampsInSnapshots: true});
+        </script>
+        <script src="app.js"></script>
+    </body>
+</html>
